@@ -1,6 +1,9 @@
 import express, {Express} from "express";
 import bodyParser from "body-parser";
 import {WelcomeRoute} from "./welcome/routes/welcomeRoute";
+import {config} from "dotenv";
+import {configureDatabase} from "./configs/database";
+import {TodoRouter} from "./routes/TodoRouter";
 
 
 export class Server {
@@ -10,6 +13,8 @@ export class Server {
     constructor() {
         // Add Express as your app
         this.app = express();
+        config();
+        configureDatabase();
         this.configureServerMiddleware();
         this.manageRoutes();
 
@@ -39,6 +44,7 @@ export class Server {
 
     private manageRoutes(): void {
         this.app.use('/welcome', new WelcomeRoute().router);
+        this.app.use('/todo', new TodoRouter().router);
     }
 
 }
