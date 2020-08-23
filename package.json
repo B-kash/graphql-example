@@ -1,7 +1,7 @@
 {
-  "name": "node-seed",
+  "name": "graph-ql-example",
   "version": "1.0.0",
-  "description": "A library to create seed project for node",
+  "description": "A example project for graph ql",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist/*",
