@@ -17,7 +17,11 @@ export class TodoRouter {
     private _routes(): void {
         this._router.get('/', graphqlHTTP({
             schema:graphQLTodoSchema,
-            graphiql: false
+            graphiql: true
+        }));
+        this._router.post('/', graphqlHTTP({
+            schema:graphQLTodoSchema,
+            graphiql: true
         }));
     }
 }
