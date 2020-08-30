@@ -8,6 +8,7 @@ import {
     GraphQLString
 } from "graphql";
 import { TodoModel } from "./Todo.model";
+import {GraphQLISODateTime} from "type-graphql";
 
 const TodoType = new GraphQLObjectType({
     name: 'Todo',
@@ -63,6 +64,9 @@ export const graphQLTodoSchema = new GraphQLSchema({
             todo: {
                 type: TodoType,
                 args: {
+                    id: {
+                        type: GraphQLID
+                    },
                     task: {
                         type: GraphQLNonNull(GraphQLString)
                     },
@@ -72,9 +76,19 @@ export const graphQLTodoSchema = new GraphQLSchema({
                     deleted: {
                         type: GraphQLBoolean
                     },
+                    dueDate: {
+                        type: GraphQLISODateTime
+                    }
                 },
-                resolve: (root, args, context, info) => {
-                    const todo = new TodoModel(args);
+                resolve: async (root, args, context, info) => {
+                    let todo;
+                    const id = args.id;
+                    if(id){
+                        todo = await TodoModel.findById(args.id).exec();
+                        todo.update(new TodoModel(args));
+                    }else {
+                        todo = new TodoModel(args);
+                    }
                     return todo.save();
                 }
             }
