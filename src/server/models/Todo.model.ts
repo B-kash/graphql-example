@@ -35,4 +35,13 @@ const TodoSchema: Schema = new Schema<ITodo>({
     }
 });
 
+TodoSchema.methods = {
+    update(todo: ITodo) {
+        this.dueDate = todo.dueDate;
+        this.task = todo.task;
+        this.priority = todo.priority;
+        this.deleted = todo.deleted;
+    }
+};
+
 export const TodoModel = Mongoose.model('Todo', TodoSchema);
